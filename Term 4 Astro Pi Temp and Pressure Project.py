@@ -18,22 +18,18 @@ pressure = round(pressure,1)
 print("Temperature =", temp)
 print("Pressure =", pressure)
 
-# Creating the message to show on the SenseHat
-message = "Temp: " + str(temp) + " Pressure: " + str(pressure)
-
 # Average temperature on the ISS is around 24 degrees celcius, so I've given the normal levels a 10 degree leeway.
 # Pressure on ISS is 101.3 kPa, anything other than this value could ruin equipment.
-# Anything outside of these values would indicate the temperature sensor is malfunctioning on the ISS, and the pressure is wack.
-if temp > 20 and temp < 50 and pressure == 1013:
+# Anything outside of these values would indicate the temperature sensor is malfunctioning on the ISS, and the pressure is abnormal.
+# This code creates a message to show on the Sense Hat screen, depending on if the levels are normal or not.
+if temp > 20 and temp < 30 and pressure == 1013:
     bg = green
-    sense.show_message(f"Temp and Pressure Levels Normal: {temp}, {pressure}")
+    sense.show_message(f"Temp and Pressure Levels Normal: {temp}, {pressure}", back_colour = bg, scroll_speed = 0.1)
 else:
     bg = red
-    (f"WARNING TEMP AND PRESSURE LEVELS ABNORMAL: {temp}, {pressure}")
+    sense.show_message(f"WARNING TEMP AND PRESSURE LEVELS ABNORMAL: {temp}, {pressure}", back_colour = bg, scroll_speed = 0.1)
 
-
-
-# This code will allow the screen to be turned off when pressing the joystick
+# This code will allow the screen to be turned off when the joystick is pressed
 while True:
     for event in sense.stick.get_events():
         if event.action == 'pressed':
